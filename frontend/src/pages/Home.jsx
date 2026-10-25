@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import api from '../lib/api';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ export default function Home() {
     <div className="p-6">
       <h1 className="text-2xl font-semibold">Hello, {user.name}</h1>
       <p className="text-gray-600">{user.email}</p>
+      <Link to="/utilities" className="mt-4 inline-block text-blue-500">Manage utilities</Link>
       <button onClick={logout} className="mt-4 rounded bg-gray-800 px-4 py-2 text-white">Logout</button>
     </div>
   );
