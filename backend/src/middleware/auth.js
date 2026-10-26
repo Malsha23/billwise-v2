@@ -15,3 +15,5 @@ export const protect = async (req, res, next) => {
     res.status(401).json({ message: 'Session expired. Please log in again.' });
   }
 };
+export const adminOnly = (req, res, next) =>
+  req.user?.role === 'admin' ? next() : res.status(403).json({ message: 'Admin access required' });

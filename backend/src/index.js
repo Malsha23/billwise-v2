@@ -6,6 +6,8 @@ import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.js';
 import utilityRoutes from './routes/utilities.js';
 import readingRoutes from './routes/readings.js';
+import tariffRoutes from './routes/tariffs.js';
+import billRoutes from './routes/bills.js';
 
 const app = express();
 
@@ -15,6 +17,8 @@ app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/utilities', utilityRoutes);
 app.use('/api/readings', readingRoutes);
+app.use('/api/tariffs', tariffRoutes);
+app.use('/api/bills', billRoutes);
 app.get('/api/health', (req, res) => {
   res.json({ ok: true });
 });

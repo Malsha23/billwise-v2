@@ -23,6 +23,8 @@ export default function Home() {
       <p className="text-gray-600">{user.email}</p>
       <Link to="/utilities" className="mt-4 inline-block text-blue-500">Manage utilities</Link>
       <Link to="/readings" className="mt-2 block text-blue-500">Meter readings</Link>
+      <Link to="/bills" className="mt-2 block text-blue-500">Bills</Link>
+      <Link to="/tariffs" className="mt-2 block text-blue-500">Tariffs</Link>
       <button onClick={logout} className="mt-4 rounded bg-gray-800 px-4 py-2 text-white">Logout</button>
     </div>
   );
