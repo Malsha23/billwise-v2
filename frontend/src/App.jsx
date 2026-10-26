@@ -1,16 +1,19 @@
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Home from './pages/Home';
+
 import Utilities from './pages/Utilities';
 import Readings from './pages/Readings';
 import Bills from './pages/Bills';
 import Tariffs from './pages/Tariffs';
+import Dashboard from './pages/Dashboard';
+import Analytics from './pages/Analytics';
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/analytics" element={<Analytics />} />
       <Route path="/utilities" element={<Utilities />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
