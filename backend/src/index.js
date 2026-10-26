@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.js';
 import utilityRoutes from './routes/utilities.js';
+import readingRoutes from './routes/readings.js';
 
 const app = express();
 
@@ -13,7 +14,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/utilities', utilityRoutes);
-
+app.use('/api/readings', readingRoutes);
 app.get('/api/health', (req, res) => {
   res.json({ ok: true });
 });

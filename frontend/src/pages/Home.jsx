@@ -22,6 +22,7 @@ export default function Home() {
       <h1 className="text-2xl font-semibold">Hello, {user.name}</h1>
       <p className="text-gray-600">{user.email}</p>
       <Link to="/utilities" className="mt-4 inline-block text-blue-500">Manage utilities</Link>
+      <Link to="/readings" className="mt-2 block text-blue-500">Meter readings</Link>
       <button onClick={logout} className="mt-4 rounded bg-gray-800 px-4 py-2 text-white">Logout</button>
     </div>
   );

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import Utility from '../models/Utility.js';
 import { protect } from '../middleware/auth.js';
+import Reading from '../models/Reading.js';
 
 const router = Router();
 router.use(protect);
@@ -60,6 +61,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   const utility = await Utility.findOneAndDelete({ _id: req.params.id, user: req.user._id });
   if (!utility) return res.status(404).json({ message: 'Utility not found' });
+  await Reading.deleteMany({ utility: utility._id });
   res.json({ ok: true });
 });
 
