@@ -8,6 +8,7 @@ import Bills from './pages/Bills';
 import Tariffs from './pages/Tariffs';
 import Dashboard from './pages/Dashboard';
 import Analytics from './pages/Analytics';
+import Admin from './pages/Admin';
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
       <Route path="/readings" element={<Readings />} />
       <Route path="/bills" element={<Bills />} />
       <Route path="/tariffs" element={<Tariffs />} />
+      <Route path="/admin" element={<Admin />} />
     </Routes>
   );
 }

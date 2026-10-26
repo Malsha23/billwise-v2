@@ -9,6 +9,7 @@ import readingRoutes from './routes/readings.js';
 import tariffRoutes from './routes/tariffs.js';
 import billRoutes from './routes/bills.js';
 import dashboardRoutes from './routes/dashboard.js';
+import adminRoutes from './routes/admin.js';
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use('/api/readings', readingRoutes);
 app.use('/api/tariffs', tariffRoutes);
 app.use('/api/bills', billRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/admin', adminRoutes);
 app.get('/api/health', (req, res) => {
   res.json({ ok: true });
 });

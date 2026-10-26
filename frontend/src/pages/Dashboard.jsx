@@ -54,9 +54,10 @@ export default function Dashboard() {
         <button onClick={logout} className="rounded bg-gray-800 px-4 py-2 text-white">Logout</button>
       </div>
 
-      <nav className="flex flex-wrap gap-4 text-blue-500">
-        {LINKS.map(([to, label]) => <Link key={to} to={to}>{label}</Link>)}
-      </nav>
+     <nav className="flex flex-wrap gap-4 text-blue-500">
+  {LINKS.map(([to, label]) => <Link key={to} to={to}>{label}</Link>)}
+  {user.role === 'admin' && <Link to="/admin">Admin</Link>}
+     </nav>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {data.cards.map((c) => (
