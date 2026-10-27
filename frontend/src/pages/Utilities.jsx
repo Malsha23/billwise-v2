@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import api, { errMsg } from '../lib/api';
 
 const TYPES = ['electricity', 'water', 'gas'];
@@ -67,7 +67,7 @@ export default function Utilities() {
     <div className="mx-auto max-w-4xl space-y-6 p-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Utilities</h1>
-        <Link to="/" className="text-blue-500">Back to home</Link>
+        
       </div>
 
       {error && <p className="rounded bg-red-50 p-2 text-sm text-red-600">{error}</p>}

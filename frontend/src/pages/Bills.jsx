@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import api, { errMsg } from '../lib/api';
 import { money, periodLabel } from '../lib/format';
 
@@ -73,7 +73,7 @@ export default function Bills() {
     <div className="mx-auto max-w-4xl space-y-6 p-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Bills</h1>
-        <Link to="/" className="text-blue-500">Back to home</Link>
+        
       </div>
 
       {error && <p className="rounded bg-red-50 p-2 text-sm text-red-600">{error}</p>}

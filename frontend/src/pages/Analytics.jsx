@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import api, { errMsg } from '../lib/api';
 import { money, monthLabel, periodLabel } from '../lib/format';
@@ -41,7 +41,7 @@ export default function Analytics() {
           <select className="rounded border p-2" value={months} onChange={(e) => setMonths(Number(e.target.value))}>
             {[3, 6, 12].map((m) => <option key={m} value={m}>Last {m} months</option>)}
           </select>
-          <Link to="/" className="text-blue-500">Back to home</Link>
+          
         </div>
       </div>
 

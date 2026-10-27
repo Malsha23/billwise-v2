@@ -10,13 +10,7 @@ const META = {
   gas: { label: 'Gas', color: '#F59E0B', bg: 'bg-amber-100' },
 };
 
-const LINKS = [
-  ['/utilities', 'Utilities'],
-  ['/readings', 'Meter readings'],
-  ['/bills', 'Bills'],
-  ['/analytics', 'Analytics'],
-  ['/tariffs', 'Tariffs'],
-];
+
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -36,29 +30,17 @@ export default function Dashboard() {
       });
   }, [navigate]);
 
-  const logout = async () => {
-    await api.post('/auth/logout');
-    navigate('/login');
-  };
+ 
 
   if (error) return <p className="p-6 text-red-600">{error}</p>;
   if (!user || !data) return <p className="p-6">Loading…</p>;
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-semibold">Hello, {user.name.split(' ')[0]}</h1>
-          <p className="text-sm text-gray-600">Here is your home utility overview.</p>
-        </div>
-        <button onClick={logout} className="rounded bg-gray-800 px-4 py-2 text-white">Logout</button>
-      </div>
-
-     <nav className="flex flex-wrap gap-4 text-blue-500">
-  {LINKS.map(([to, label]) => <Link key={to} to={to}>{label}</Link>)}
-  {user.role === 'admin' && <Link to="/admin">Admin</Link>}
-     </nav>
-
+    <div>
+  <h1 className="text-2xl font-semibold">Hello, {user.name.split(' ')[0]}</h1>
+  <p className="text-sm text-gray-600">Here is your home utility overview.</p>
+    </div>
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {data.cards.map((c) => (
           <div key={c.type} className={`rounded-xl p-5 shadow ${META[c.type].bg}`}>

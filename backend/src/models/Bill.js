@@ -13,7 +13,7 @@ const billSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// එකම utility එකට එකම මාසයට bill එකක් විතරයි
+
 billSchema.index({ utility: 1, period: 1 }, { unique: true });
 
 export default mongoose.model('Bill', billSchema);

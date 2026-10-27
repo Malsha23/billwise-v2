@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import api, { errMsg } from '../lib/api';
 import { money } from '../lib/format';
 
@@ -74,7 +74,7 @@ export default function Tariffs() {
     <div className="mx-auto max-w-4xl space-y-6 p-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Tariffs</h1>
-        <Link to="/" className="text-blue-500">Back to home</Link>
+        
       </div>
 
       <p className="text-sm text-gray-600">
