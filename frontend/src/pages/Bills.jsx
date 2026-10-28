@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api, { errMsg } from '../lib/api';
-import { money, periodLabel } from '../lib/format';
+import { money, periodLabel, UNITS } from '../lib/format';
 
 const TYPES = ['electricity', 'water', 'gas'];
 const thisMonth = () => new Date().toISOString().slice(0, 7);
@@ -133,7 +133,7 @@ export default function Bills() {
               <tr key={b._id} className="border-b">
                 <td className="p-3">{periodLabel(b.period)}</td>
                 <td className="p-3 capitalize">{b.type}{b.utility?.provider ? ` (${b.utility.provider})` : ''}</td>
-                <td className="p-3">{b.usage}</td>
+                <td className="p-3">{b.usage} {UNITS[b.type]}</td>
                 <td className="p-3 font-medium">{money(b.amount)}</td>
                 <td className="p-3">
                   <span className={`rounded-full px-2 py-0.5 text-xs ${b.status === 'paid' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>

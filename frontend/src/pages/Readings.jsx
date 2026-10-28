@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api, { errMsg } from '../lib/api';
+import { UNITS } from '../lib/format';
 
-const UNITS = { electricity: 'kWh', water: 'm³', gas: 'm³' };
+
 const today = () => new Date().toISOString().slice(0, 10);
 
 export default function Readings() {

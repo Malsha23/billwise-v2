@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api, { errMsg } from '../lib/api';
-import { money } from '../lib/format';
+import { money, UNITS } from '../lib/format';
 
 const TYPES = ['electricity', 'water', 'gas'];
-const UNITS = { electricity: 'kWh', water: 'm³', gas: 'm³' };
+
 const today = () => new Date().toISOString().slice(0, 10);
 const blank = () => ({ utilityType: 'electricity', unit: 'kWh', ratePerUnit: '', fixedCharge: 0, effectiveFrom: today() });
 
