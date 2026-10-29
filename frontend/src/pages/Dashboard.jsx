@@ -5,9 +5,9 @@ import api, { errMsg } from '../lib/api';
 import { money, monthLabel, periodLabel } from '../lib/format';
 
 const META = {
-  electricity: { label: 'Electricity', color: '#10B981', bg: 'bg-emerald-100' },
-  water: { label: 'Water', color: '#3B82F6', bg: 'bg-blue-100' },
-  gas: { label: 'Gas', color: '#F59E0B', bg: 'bg-amber-100' },
+  electricity: { label: 'Electricity', icon: '⚡', color: '#10B981', bg: 'bg-emerald-100' },
+  water: { label: 'Water', icon: '💧', color: '#3B82F6', bg: 'bg-blue-100' },
+  gas: { label: 'Gas', icon: '🔥', color: '#F59E0B', bg: 'bg-amber-100' },
 };
 
 
@@ -39,7 +39,10 @@ export default function Dashboard() {
     <div className="mx-auto max-w-5xl space-y-6 p-6">
     <div>
   <h1 className="text-2xl font-semibold">Hello, {user.name.split(' ')[0]}</h1>
-  <p className="text-sm text-gray-600">Here is your home utility overview.</p>
+  <p className="flex items-center gap-2 text-sm text-gray-600">
+  <span className="text-lg">{META[c.type].icon}</span>
+  {META[c.type].label}
+  </p>
     </div>
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {data.cards.map((c) => (
@@ -55,7 +58,10 @@ export default function Dashboard() {
           </div>
         ))}
         <div className="rounded-xl bg-violet-100 p-5 shadow">
-          <p className="text-sm text-gray-600">Total bill</p>
+          <p className="flex items-center gap-2 text-sm text-gray-600">
+  <span className="text-lg">🧾</span>
+  Total bill
+</p>
           <p className="text-xl font-semibold">{money(data.total)}</p>
           <p className="mt-2 text-xs text-gray-600">Latest bills combined</p>
         </div>

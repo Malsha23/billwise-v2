@@ -3,16 +3,18 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import api from '../lib/api';
 
 const LINKS = [
-  ['/', 'Dashboard'],
-  ['/utilities', 'Utilities'],
-  ['/readings', 'Meter readings'],
-  ['/bills', 'Bills'],
-  ['/analytics', 'Analytics'],
-  ['/tariffs', 'Tariffs'],
+  ['/', 'Dashboard', '🏠'],
+  ['/utilities', 'Utilities', '⚡'],
+  ['/readings', 'Readings', '🔢'],
+  ['/bills', 'Bills', '🧾'],
+  ['/analytics', 'Analytics', '📈'],
+  ['/tariffs', 'Tariffs', '💲'],
 ];
 
 const linkClass = ({ isActive }) =>
-  isActive ? 'font-semibold text-blue-600' : 'text-gray-600 hover:text-blue-500';
+  `flex items-center gap-3 rounded-lg px-3 py-2 text-sm ${
+    isActive ? 'bg-blue-500 text-white' : 'text-slate-300 hover:bg-slate-700'
+  }`;
 
 export default function Layout() {
   const navigate = useNavigate();
@@ -33,49 +35,46 @@ export default function Layout() {
 
   if (!user) return <p className="p-6">Loading…</p>;
 
-  const links = user.role === 'admin' ? [...LINKS, ['/admin', 'Admin']] : LINKS;
+  const links = user.role === 'admin' ? [...LINKS, ['/admin', 'Admin', '👥']] : LINKS;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="sticky top-0 z-10 border-b bg-white">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3">
-          <span className="text-lg font-bold text-blue-600">Billwise</span>
-
-          <nav className="hidden gap-5 text-sm md:flex">
-            {links.map(([to, label]) => (
-              <NavLink key={to} to={to} end={to === '/'} className={linkClass}>
-                {label}
-              </NavLink>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <span className="hidden text-sm text-gray-600 sm:inline">{user.name}</span>
-            <button onClick={logout} className="rounded bg-gray-800 px-3 py-1.5 text-sm text-white">
-              Logout
-            </button>
-            <button
-              onClick={() => setOpen(!open)}
-              aria-label="Menu"
-              className="rounded border px-2 py-1 md:hidden"
-            >
-              ☰
-            </button>
-          </div>
-        </div>
-
-        {open && (
-          <nav className="flex flex-col gap-3 border-t px-4 py-3 text-sm md:hidden">
-            {links.map(([to, label]) => (
-              <NavLink key={to} to={to} end={to === '/'} onClick={() => setOpen(false)} className={linkClass}>
-                {label}
-              </NavLink>
-            ))}
-          </nav>
-        )}
+    <div className="min-h-screen bg-gray-50 md:flex">
+      <header className="flex items-center justify-between bg-slate-900 px-4 py-3 text-white md:hidden">
+        <span className="text-lg font-bold">Billwise</span>
+        <button
+          onClick={() => setOpen(!open)}
+          aria-label="Menu"
+          className="rounded border border-slate-600 px-2 py-1"
+        >
+          ☰
+        </button>
       </header>
 
-      <Outlet />
+      <aside
+        className={`${open ? 'block' : 'hidden'} w-full shrink-0 bg-slate-900 p-4 text-white md:sticky md:top-0 md:flex md:h-screen md:w-56 md:flex-col`}
+      >
+        <div className="mb-6 hidden text-xl font-bold md:block">Billwise</div>
+
+        <nav className="flex flex-col gap-1">
+          {links.map(([to, label, icon]) => (
+            <NavLink key={to} to={to} end={to === '/'} onClick={() => setOpen(false)} className={linkClass}>
+              <span>{icon}</span>
+              {label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="mt-6 border-t border-slate-700 pt-4 md:mt-auto">
+          <p className="truncate text-sm text-slate-300">{user.name}</p>
+          <button onClick={logout} className="mt-2 w-full rounded bg-slate-700 px-3 py-2 text-sm hover:bg-slate-600">
+            Logout
+          </button>
+        </div>
+      </aside>
+
+      <main className="min-w-0 flex-1">
+        <Outlet />
+      </main>
     </div>
   );
 }

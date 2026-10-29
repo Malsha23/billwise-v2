@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api, { errMsg } from '../lib/api';
+import PasswordInput from '../components/PasswordInput';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -35,12 +36,9 @@ export default function Register() {
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
         />
-        <input
-          type="password" required minLength={6} placeholder="Password (min 6 characters)"
-          className="w-full rounded border p-2"
-          value={form.password}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-        />
+       <PasswordInput placeholder="Password (min 6 characters)" value={form.password} onChange={set('password')} />
+       <PasswordInput placeholder="Confirm password" value={form.confirm} onChange={set('confirm')} />
+        
         <button className="w-full rounded bg-blue-500 p-2 font-semibold text-white">Register</button>
         <p className="text-center text-sm">
           Already have an account? <Link to="/login" className="text-blue-500">Login</Link>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api, { errMsg } from '../lib/api';
-
+import PasswordInput from '../components/PasswordInput';
 export default function Login() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '' });
@@ -29,12 +29,12 @@ export default function Login() {
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
         />
-        <input
-          type="password" required placeholder="Password"
-          className="w-full rounded border p-2"
-          value={form.password}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-        />
+        <PasswordInput
+  required placeholder="Password"
+  value={form.password}
+  onChange={(e) => setForm({ ...form, password: e.target.value })}
+         />
+        
         <button className="w-full rounded bg-blue-500 p-2 font-semibold text-white">Login</button>
         <p className="text-center text-sm">
           No account? <Link to="/register" className="text-blue-500">Register</Link>
