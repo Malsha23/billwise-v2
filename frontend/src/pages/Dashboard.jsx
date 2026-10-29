@@ -10,8 +10,6 @@ const META = {
   gas: { label: 'Gas', icon: '🔥', color: '#F59E0B', bg: 'bg-amber-100' },
 };
 
-
-
 export default function Dashboard() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
@@ -30,42 +28,43 @@ export default function Dashboard() {
       });
   }, [navigate]);
 
- 
-
   if (error) return <p className="p-6 text-red-600">{error}</p>;
   if (!user || !data) return <p className="p-6">Loading…</p>;
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-6">
-    <div>
-  <h1 className="text-2xl font-semibold">Hello, {user.name.split(' ')[0]}</h1>
-  <p className="flex items-center gap-2 text-sm text-gray-600">
-  <span className="text-lg">{META[c.type].icon}</span>
-  {META[c.type].label}
-  </p>
-    </div>
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {data.cards.map((c) => (
-          <div key={c.type} className={`rounded-xl p-5 shadow ${META[c.type].bg}`}>
-            <p className="text-sm text-gray-600">{META[c.type].label}</p>
-            <p className="text-xl font-semibold">{money(c.amount)}</p>
-            <div className="mt-2 flex items-center justify-between text-xs text-gray-600">
-              <span>{c.period ? periodLabel(c.period) : 'No bills yet'}</span>
-              <span className={c.change > 0 ? 'text-red-500' : 'text-green-600'}>
-                {c.change > 0 ? '▲' : c.change < 0 ? '▼' : ''} {Math.abs(c.change)}%
-              </span>
-            </div>
-          </div>
-        ))}
-        <div className="rounded-xl bg-violet-100 p-5 shadow">
-          <p className="flex items-center gap-2 text-sm text-gray-600">
-  <span className="text-lg">🧾</span>
-  Total bill
-</p>
-          <p className="text-xl font-semibold">{money(data.total)}</p>
-          <p className="mt-2 text-xs text-gray-600">Latest bills combined</p>
-        </div>
+      <div>
+        <h1 className="text-2xl font-semibold">Hello, {user.name.split(' ')[0]}</h1>
+        <p className="text-sm text-gray-600">Here is your home utility overview.</p>
       </div>
+
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+  {data.cards.map((c) => (
+    <div key={c.type} className={`rounded-xl p-5 shadow ${META[c.type].bg}`}>
+      <p className="flex items-center gap-2 text-sm text-gray-600">
+        <span className="text-lg">{META[c.type].icon}</span>
+        {META[c.type].label}
+      </p>
+      <p className="text-xl font-semibold">{money(c.amount)}</p>
+      <div className="mt-2 flex items-center justify-between text-xs text-gray-600">
+        <span>{c.period ? periodLabel(c.period) : 'No bills yet'}</span>
+        <span className={c.change > 0 ? 'text-red-500' : 'text-green-600'}>
+          {c.change > 0 ? '▲' : c.change < 0 ? '▼' : ''} {Math.abs(c.change)}%
+        </span>
+      </div>
+    </div>
+  ))}
+
+  <div className="rounded-xl bg-violet-100 p-5 shadow">
+    <p className="flex items-center gap-2 text-sm text-gray-600">
+      <span className="text-lg">🧾</span>
+      Total bill
+    </p>
+    <p className="text-xl font-semibold">{money(data.total)}</p>
+    <p className="mt-2 text-xs text-gray-600">Latest bills combined</p>
+  </div>
+</div>
+       
 
       <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
         <div className="rounded-xl bg-white p-5 shadow">

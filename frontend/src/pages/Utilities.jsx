@@ -1,19 +1,41 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api, { errMsg } from '../lib/api';
+import Modal from '../components/Modal';
+import ConfirmDialog from '../components/ConfirmDialog';
 
 const TYPES = ['electricity', 'water', 'gas'];
 const empty = { type: 'electricity', provider: '', accountNumber: '', meterNumber: '' };
+
+function Fields({ form, setForm }) {
+  return (
+    <>
+      <select className="rounded border p-2" value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}>
+        {TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+      </select>
+      <input className="rounded border p-2" required placeholder="Provider" value={form.provider}
+        onChange={(e) => setForm({ ...form, provider: e.target.value })} />
+      <input className="rounded border p-2" required placeholder="Account number" value={form.accountNumber}
+        onChange={(e) => setForm({ ...form, accountNumber: e.target.value })} />
+      <input className="rounded border p-2" placeholder="Meter number (optional)" value={form.meterNumber}
+        onChange={(e) => setForm({ ...form, meterNumber: e.target.value })} />
+    </>
+  );
+}
 
 export default function Utilities() {
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
   const [form, setForm] = useState(empty);
-  const [editingId, setEditingId] = useState(null);
-  const [error, setError] = useState('');
   const [search, setSearch] = useState('');
   const [type, setType] = useState('');
   const [sort, setSort] = useState('-createdAt');
+  const [error, setError] = useState('');
+
+  const [editId, setEditId] = useState(null);
+  const [editForm, setEditForm] = useState(empty);
+  const [modalError, setModalError] = useState('');
+  const [toDelete, setToDelete] = useState(null);
 
   const load = async () => {
     try {
@@ -29,65 +51,63 @@ export default function Utilities() {
     load();
   }, [search, type, sort]);
 
-  const submit = async (e) => {
+  const add = async (e) => {
     e.preventDefault();
     setError('');
     try {
-      if (editingId) await api.put(`/utilities/${editingId}`, form);
-      else await api.post('/utilities', form);
+      await api.post('/utilities', form);
       setForm(empty);
-      setEditingId(null);
       load();
     } catch (err) {
       setError(errMsg(err));
     }
   };
 
-  const startEdit = (u) => {
-    setEditingId(u._id);
-    setForm({ type: u.type, provider: u.provider, accountNumber: u.accountNumber, meterNumber: u.meterNumber });
+  const openEdit = (u) => {
+    setModalError('');
+    setEditId(u._id);
+    setEditForm({ type: u.type, provider: u.provider, accountNumber: u.accountNumber, meterNumber: u.meterNumber });
   };
 
-  const cancelEdit = () => {
-    setEditingId(null);
-    setForm(empty);
-  };
-
-  const remove = async (u) => {
-    if (!confirm(`Delete ${u.provider} (${u.type})?`)) return;
+  const saveEdit = async (e) => {
+    e.preventDefault();
     try {
-      await api.delete(`/utilities/${u._id}`);
+      await api.put(`/utilities/${editId}`, editForm);
+      setEditId(null);
       load();
     } catch (err) {
+      setModalError(errMsg(err));
+    }
+  };
+
+  const confirmDelete = async () => {
+    try {
+      await api.delete(`/utilities/${toDelete._id}`);
+      setToDelete(null);
+      load();
+    } catch (err) {
+      setToDelete(null);
       setError(errMsg(err));
     }
   };
 
   return (
     <div className="mx-auto max-w-4xl space-y-6 p-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Utilities</h1>
-        
-      </div>
+      <h1 className="text-2xl font-semibold">Utilities</h1>
 
       {error && <p className="rounded bg-red-50 p-2 text-sm text-red-600">{error}</p>}
 
-      <form onSubmit={submit} className="grid gap-3 rounded-xl bg-white p-4 shadow sm:grid-cols-2">
-        <h2 className="font-semibold sm:col-span-2">{editingId ? 'Edit utility' : 'Add utility'}</h2>
-        <select className="rounded border p-2" value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}>
-          {TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
-        </select>
-        <input className="rounded border p-2" required placeholder="Provider" value={form.provider} onChange={(e) => setForm({ ...form, provider: e.target.value })} />
-        <input className="rounded border p-2" required placeholder="Account number" value={form.accountNumber} onChange={(e) => setForm({ ...form, accountNumber: e.target.value })} />
-        <input className="rounded border p-2" placeholder="Meter number (optional)" value={form.meterNumber} onChange={(e) => setForm({ ...form, meterNumber: e.target.value })} />
-        <div className="flex gap-2 sm:col-span-2">
-          <button className="rounded bg-blue-500 px-4 py-2 font-semibold text-white">{editingId ? 'Save changes' : 'Add'}</button>
-          {editingId && <button type="button" onClick={cancelEdit} className="rounded border px-4 py-2">Cancel</button>}
+      <form onSubmit={add} className="grid gap-3 rounded-xl bg-white p-4 shadow sm:grid-cols-2">
+        <h2 className="font-semibold sm:col-span-2">Add utility</h2>
+        <Fields form={form} setForm={setForm} />
+        <div className="sm:col-span-2">
+          <button className="rounded bg-blue-500 px-4 py-2 font-semibold text-white">Add</button>
         </div>
       </form>
 
       <div className="flex flex-wrap gap-3">
-        <input className="rounded border p-2" placeholder="Search provider or account" value={search} onChange={(e) => setSearch(e.target.value)} />
+        <input className="rounded border p-2" placeholder="Search provider or account" value={search}
+          onChange={(e) => setSearch(e.target.value)} />
         <select className="rounded border p-2" value={type} onChange={(e) => setType(e.target.value)}>
           <option value="">All types</option>
           {TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
@@ -120,8 +140,8 @@ export default function Utilities() {
                 <td className="p-3">{u.accountNumber}</td>
                 <td className="p-3">{u.meterNumber || '-'}</td>
                 <td className="flex gap-3 p-3">
-                  <button onClick={() => startEdit(u)} className="text-blue-500">Edit</button>
-                  <button onClick={() => remove(u)} className="text-red-500">Delete</button>
+                  <button onClick={() => openEdit(u)} className="text-blue-500">Edit</button>
+                  <button onClick={() => setToDelete(u)} className="text-red-500">Delete</button>
                 </td>
               </tr>
             ))}
@@ -129,6 +149,30 @@ export default function Utilities() {
         </table>
         {items.length === 0 && <p className="p-6 text-center text-gray-500">No utilities found.</p>}
       </div>
+
+      {editId && (
+        <Modal title="Edit utility" onClose={() => setEditId(null)}>
+          <form onSubmit={saveEdit} className="space-y-3">
+            {modalError && <p className="rounded bg-red-50 p-2 text-sm text-red-600">{modalError}</p>}
+            <Fields form={editForm} setForm={setEditForm} />
+            <div className="flex justify-end gap-2 pt-2">
+              <button type="button" onClick={() => setEditId(null)} className="rounded border px-4 py-2">Cancel</button>
+              <button className="rounded bg-blue-500 px-4 py-2 font-semibold text-white">Update</button>
+            </div>
+          </form>
+        </Modal>
+      )}
+
+      {toDelete && (
+        <ConfirmDialog title="Delete utility" onConfirm={confirmDelete} onCancel={() => setToDelete(null)}>
+          <p>Are you sure you want to delete this utility? Its readings and bills will be deleted too.</p>
+          <ul className="mt-2 space-y-1">
+            <li>Type: <b className="capitalize">{toDelete.type}</b></li>
+            <li>Provider: <b>{toDelete.provider}</b></li>
+            <li>Account: <b>{toDelete.accountNumber}</b></li>
+          </ul>
+        </ConfirmDialog>
+      )}
     </div>
   );
 }
