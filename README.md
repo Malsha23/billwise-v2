@@ -114,3 +114,11 @@ See [docs/ERD.md](docs/ERD.md).
 | Bills | Analytics |
 |---|---|
 | ![Bills](docs/screenshots/bills.png) | ![Analytics](docs/screenshots/analytics.png) |
+
+| Tariffs | Admin |
+|---|---|
+| ![Tariffs](docs/screenshots/tariffs.png) | ![Admin](docs/screenshots/admin.png) |
+
+| Admin |
+|---|
+| ![Admin](docs/screenshots/admin.png) |
