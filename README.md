@@ -1,7 +1,7 @@
 # Billwise-v2
 
 A web application that helps families track their electricity, water and gas bills.
-Users record meter readings each month, and the app calculates usage and creates bills
+Users record meter readings each month and the app calculates usage and creates bills
 automatically from tariff rates.
 
 Built with React, Node.js, Express and MongoDB.
